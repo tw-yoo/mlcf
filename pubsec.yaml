@@ -1,0 +1,8 @@
+name: mlcf
+description: your_project_description
+version: 1.0.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.0.1
