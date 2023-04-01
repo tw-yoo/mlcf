@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:mlcf/sample.dart';
-
-import 'menu/selector.dart';
-import 'menu/visualizer.dart';
+import 'package:mlcf/providers/selected_options.dart';
+import 'package:provider/provider.dart';
+import 'menu/selector/selector.dart';
+import 'menu/visualizer/visualizer.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SelectedOptions()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -20,8 +27,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.dark,
       debugShowCheckedModeBanner: false,
-      home: CheckboxExample()
-      // const MainPage(),
+      home: const MainPage(),
     );
   }
 }
@@ -50,8 +56,8 @@ class MainPageState extends State<MainPage> {
       ),
       body: Row(
         children: [
-          Flexible(flex: 2, fit: FlexFit.tight, child: Selector(selectedDataSet: selectedDataSet, selectedModelSet: selectedModelSet,)),
-          const Flexible(flex: 7, fit: FlexFit.tight, child: Visualizer(set1: {"1" , "2"}, set2: {"3" , "4"})),
+          Flexible(flex: 2, fit: FlexFit.tight, child: OptionSelector(selectedDataSet: selectedDataSet, selectedModelSet: selectedModelSet,)),
+          const Flexible(flex: 7, fit: FlexFit.tight, child: Visualizer()),
         ],
       ),
     );
