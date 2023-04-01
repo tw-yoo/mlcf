@@ -17,35 +17,40 @@ class SelectCheckBoxItemList extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return SizedBox(
-      width: screenHeight * 0.3,
-      child: Expanded(
-          child:
-          Column(
-            children: [
-              Text(selectBoxType.name),
-              Container(
-                  height: screenHeight * 0.3,
-                  margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                  child: SingleChildScrollView(
-                      child: ListView.separated(
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext ctx, int idx) {
-                            return SelectCheckBoxItem(
-                              name: "option $idx",
-                              selectBoxType: selectBoxType,
-                            );
-                          },
-                          separatorBuilder: (BuildContext ctx, int idx) {
-                            return const Divider();
-                          },
-                          itemCount: 10
-                      )
-                  )
-              )
-            ],
-          )
-      ),
+    return Flex(
+      // width: screenHeight * 0.3,
+      direction: Axis.vertical,
+      mainAxisSize: MainAxisSize.min,
+
+      children: [
+        Flexible(
+            child:
+            Column(
+              children: [
+                Text(selectBoxType.name),
+                Container(
+                    height: screenHeight * 0.3,
+                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                    child: SingleChildScrollView(
+                        child: ListView.separated(
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext ctx, int idx) {
+                              return SelectCheckBoxItem(
+                                name: "option $idx",
+                                selectBoxType: selectBoxType,
+                              );
+                            },
+                            separatorBuilder: (BuildContext ctx, int idx) {
+                              return const Divider();
+                            },
+                            itemCount: 10
+                        )
+                    )
+                )
+              ],
+            )
+        ),
+      ]
     ) ;
 
   }
