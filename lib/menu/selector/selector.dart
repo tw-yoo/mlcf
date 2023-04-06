@@ -4,7 +4,7 @@ import 'package:mlcf/menu/selector/checkbox_list/selectCheckBoxItemList.dart';
 
 import 'button/reset_button.dart';
 
-enum SelectBoxType { data, model }
+enum SelectBoxType { data, architecture }
 
 class OptionSelector extends StatefulWidget {
 
@@ -22,9 +22,9 @@ class OptionSelectorState extends State<OptionSelector> {
       alignment: Alignment.center,
       child: Column(
         children: const [
-          SelectCheckBoxItemList(selectBoxType: SelectBoxType.data),
+          // SelectCheckBoxItemList(selectBoxType: SelectBoxType.data),
           // ResetButton(selectBoxType: SelectBoxType.data,),
-          SelectCheckBoxItemList(selectBoxType: SelectBoxType.model),
+          SelectCheckBoxItemList(selectBoxType: SelectBoxType.architecture),
           // ResetButton(selectBoxType: SelectBoxType.model,),
           VisualizeButton(),
         ],

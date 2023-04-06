@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mlcf/menu/selector/selector.dart';
+import 'package:mlcf/providers/emission.dart';
 import 'package:mlcf/providers/selected_options.dart';
 import 'package:provider/provider.dart';
 
@@ -36,14 +37,14 @@ class SelectCheckBoxItemList extends StatelessWidget {
                             shrinkWrap: true,
                             itemBuilder: (BuildContext ctx, int idx) {
                               return SelectCheckBoxItem(
-                                name: "option $idx",
+                                name: context.watch<EmissionManager>().inferenceEmissionList[idx].architecture,
                                 selectBoxType: selectBoxType,
                               );
                             },
                             separatorBuilder: (BuildContext ctx, int idx) {
                               return const Divider();
                             },
-                            itemCount: 10
+                            itemCount: context.watch<EmissionManager>().inferenceEmissionList.length
                         )
                     )
                 )

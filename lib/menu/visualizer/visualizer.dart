@@ -35,16 +35,18 @@ class VisualizerState extends State<Visualizer> {
               screenWidth * 0.1,
               screenHeight * 0.2
           ),
-          child:
-          LineChart(
-            mainChart(
-                context.watch<SelectedOptions>().selectedDataList.length,
-                context.watch<SelectedOptions>().selectedModelList.length
-            ),
-          ),
+          child: const BarChartCus()
+          // LineChart(
+            // mainChart(
+            //     context.watch<SelectedOptions>().selectedModelList
+            // ),
+
+              // BarChartSample3() as LineChartData
+          // ),
         )
       ],
     );
   }
 }
+
 
