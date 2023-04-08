@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mlcf/menu/selector/selector.dart';
-import 'package:mlcf/providers/emission.dart';
+import 'package:mlcf/providers/emission_manager.dart';
 import 'package:mlcf/providers/selected_options.dart';
 import 'package:provider/provider.dart';
 

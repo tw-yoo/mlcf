@@ -12,13 +12,16 @@ class EmissionManager with ChangeNotifier {
   final List<TrainEmission> _trainEmissionList = [];
   final List<InferenceEmission> _inferenceEmissionList = [];
 
+  String? _selectedArchitecture;
+
   List<TrainEmission> get tranEmissionList => _trainEmissionList;
   List<InferenceEmission> get inferenceEmissionList => _inferenceEmissionList;
+  String? get selectedArchitecture => _selectedArchitecture;
 
   void addOptionByBoxType(EmissionType emissionType, dynamic option) {
     List? selectedList = getListByEmissionBoxType(emissionType);
     selectedList?.add(option);
-    notifyListeners();
+    // notifyListeners();
   }
 
   void removeOptionByType(EmissionType emissionType, dynamic option) {
@@ -29,6 +32,11 @@ class EmissionManager with ChangeNotifier {
   void emptyOptionByType(EmissionType emissionType) {
     List? selectedList = getListByEmissionBoxType(emissionType);
     selectedList?.clear();
+  }
+
+  void updateSelectedArchitecture(int i) {
+    _selectedArchitecture = _trainEmissionList[i].architecture;
+    notifyListeners();
   }
 
   List<dynamic>? getListByEmissionBoxType(EmissionType emissionType) {

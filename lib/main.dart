@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mlcf/model/inference_emission.dart';
 import 'package:mlcf/model/train_emission.dart';
-import 'package:mlcf/providers/emission.dart';
+import 'package:mlcf/providers/emission_manager.dart';
 import 'package:mlcf/providers/selected_options.dart';
 import 'package:provider/provider.dart';
 import 'menu/selector/selector.dart';
