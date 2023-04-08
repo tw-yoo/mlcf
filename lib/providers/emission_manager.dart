@@ -18,6 +18,8 @@ class EmissionManager with ChangeNotifier {
   List<InferenceEmission> get inferenceEmissionList => _inferenceEmissionList;
   String? get selectedArchitecture => _selectedArchitecture;
 
+  bool showSubChart = false;
+
   void addOptionByBoxType(EmissionType emissionType, dynamic option) {
     List? selectedList = getListByEmissionBoxType(emissionType);
     selectedList?.add(option);
@@ -35,7 +37,12 @@ class EmissionManager with ChangeNotifier {
   }
 
   void updateSelectedArchitecture(int i) {
-    _selectedArchitecture = _trainEmissionList[i].architecture;
+    _selectedArchitecture = _trainEmissionList[i]?.architecture;
+    notifyListeners();
+  }
+
+  void updateShowSubChart(bool show) {
+    showSubChart = show;
     notifyListeners();
   }
 

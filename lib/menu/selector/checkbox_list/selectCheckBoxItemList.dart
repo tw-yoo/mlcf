@@ -28,7 +28,16 @@ class SelectCheckBoxItemList extends StatelessWidget {
             child:
             Column(
               children: [
-                Text(selectBoxType.name),
+                Container(
+                  margin: const EdgeInsets.fromLTRB(0, 30, 0, 10),
+                 child: Text(
+                   selectBoxType.name,
+                   style: const TextStyle(
+                       fontSize: 20,
+                       fontWeight: FontWeight.bold
+                   ),
+                 ),
+                ),
                 Container(
                     height: screenHeight * 0.3,
                     margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),

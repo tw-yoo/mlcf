@@ -62,11 +62,13 @@ class _MainEmissionChartState extends State<MainEmissionChart> {
         primaryYAxis: NumericAxis(minimum: 0, maximum: maxY, interval: maxY * 0.1),
         tooltipBehavior: _tooltip,
         selectionGesture: ActivationMode.doubleTap,
-        onSelectionChanged: (e) => {
+        onSelectionChanged: (e) {
           context.read<EmissionManager>()
               .updateSelectedArchitecture(
               e.pointIndex
-          )
+          );
+          context.read<EmissionManager>()
+              .updateShowSubChart(true);
         },
         series: <ChartSeries<ChartData, String>>[
           ColumnSeries<ChartData, String>(

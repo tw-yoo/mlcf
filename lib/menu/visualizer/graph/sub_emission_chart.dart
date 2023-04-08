@@ -50,9 +50,6 @@ class _SubEmissionChartState extends State<SubEmissionChart> {
           .inferenceEmissionList
           .firstWhere((e) => e.architecture == selectedArchitecture);
 
-      print("selected train architecture: ${trainEmission.architecture}");
-      print("selected inference architecture: ${inferenceEmission.architecture}");
-
       trainEmissionData = ChartData(
           "train",
           trainEmission.co2PerHour
@@ -63,7 +60,7 @@ class _SubEmissionChartState extends State<SubEmissionChart> {
       );
     }
 
-    if (trainEmissionData == null) {
+    if (!context.watch<EmissionManager>().showSubChart) {
       return const Text("");
     } else {
 
@@ -74,12 +71,7 @@ class _SubEmissionChartState extends State<SubEmissionChart> {
           primaryYAxis: NumericAxis(minimum: 0, maximum: maxY * 1.1, interval: maxY * 0.1),
           tooltipBehavior: _tooltip,
           selectionGesture: ActivationMode.doubleTap,
-          onSelectionChanged: (e) => {
-            context.read<EmissionManager>()
-                .updateSelectedArchitecture(
-                e.pointIndex
-            )
-          },
+          onSelectionChanged: (e) {},
           series: <ChartSeries<ChartData, String>>[
             ColumnSeries<ChartData, String>(
                 dataSource: [

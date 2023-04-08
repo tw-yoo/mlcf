@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:mlcf/providers/emission_manager.dart';
 import 'package:mlcf/providers/selected_options.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class VisualizeButtonState extends State<VisualizeButton> {
         return ElevatedButton(
         onPressed: () {
             context.read<SelectedOptions>().notify();
+            context.read<EmissionManager>().updateShowSubChart(false);
         },
         child: const Text("create graph", style: TextStyle(color: Colors.white),),
     );
