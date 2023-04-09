@@ -1,16 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:mlcf/menu/selector/selector.dart';
+import 'package:mlcf/model/inference_emission.dart';
+import 'package:mlcf/model/train_emission.dart';
 import 'package:mlcf/providers/emission_manager.dart';
 import 'package:mlcf/providers/selected_options.dart';
 import 'package:provider/provider.dart';
 
 
 // SelectCheckBoxItem을 담고있는 리스트
-class SelectCheckBoxItemList extends StatelessWidget {
-
+class SelectCheckBoxItemList extends StatefulWidget {
   final SelectBoxType selectBoxType;
-
   const SelectCheckBoxItemList({super.key, required this.selectBoxType});
+
+  @override
+  State<StatefulWidget> createState() => _SelectCheckboxItemListState();
+}
+
+class _SelectCheckboxItemListState extends State<SelectCheckBoxItemList> {
+
+  String filter = "";
+  final TextEditingController _searchTextController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _searchTextController
+        .addListener(() {
+          filter = _searchTextController.text;
+          setState(() {});
+        });
+  }
+
+  @override
+  void dispose() {
+    _searchTextController.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -18,51 +44,67 @@ class SelectCheckBoxItemList extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return Flex(
-      // width: screenHeight * 0.3,
-      direction: Axis.vertical,
-      mainAxisSize: MainAxisSize.min,
+    List<TrainEmission> list = context.read<EmissionManager>().trainEmissionList;
 
-      children: [
-        Flexible(
-            child:
-            Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.fromLTRB(0, 30, 0, 10),
-                 child: Text(
-                   selectBoxType.name,
-                   style: const TextStyle(
-                       fontSize: 20,
-                       fontWeight: FontWeight.bold
-                   ),
-                 ),
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          Container(
+            margin: const EdgeInsets.fromLTRB(0, 30, 0, 40),
+            child: const Text(
+                "Architectures",
+              style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+            ),
+          ),
+          Transform.translate(
+            offset: Offset(0, -25),
+            child: Container(
+              height: 60.0,
+              padding: EdgeInsets.only(left: 20, top: 8),
+              margin: EdgeInsets.symmetric(horizontal: 16),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 20.0,
+                    offset: Offset(0, 10.0),
+                  ),
+                ],
+              ),
+              child: TextField(
+                style: TextStyle(color: Colors.black),
+                controller: _searchTextController,
+                decoration: const InputDecoration(
+                  suffixIcon: Icon(
+                    Icons.search,
+                    color: Colors.black,
+                    size: 20.0,
+                  ),
+                  border: InputBorder.none,
+                  hintText: 'Search..',
                 ),
-                Container(
-                    height: screenHeight * 0.3,
-                    margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                    child: SingleChildScrollView(
-                        child: ListView.separated(
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext ctx, int idx) {
-                              return SelectCheckBoxItem(
-                                name: context.watch<EmissionManager>().inferenceEmissionList[idx].architecture,
-                                selectBoxType: selectBoxType,
-                              );
-                            },
-                            separatorBuilder: (BuildContext ctx, int idx) {
-                              return const Divider();
-                            },
-                            itemCount: context.watch<EmissionManager>().inferenceEmissionList.length
-                        )
-                    )
-                )
-              ],
-            )
-        ),
-      ]
-    ) ;
-
+              ),
+            ),
+          ),
+                        ...list.map((e) => e.architecture)
+                        .toSet().toList()
+                            .map((String m) {
+                              return filter == null || filter == ''
+                                  ? SelectCheckBoxItem(
+                                name: m,
+                                selectBoxType: widget.selectBoxType,
+                              )
+                                  : m.toLowerCase().contains(filter.toLowerCase())
+                                  ? SelectCheckBoxItem(
+                                name: m,
+                                selectBoxType: widget.selectBoxType,
+                              )
+                                  : Container();
+                            }).toList(),
+        ],
+      ),
+    );
   }
 }
 

@@ -9,7 +9,7 @@ import '../../../model/inference_emission.dart';
 import '../../../model/train_emission.dart';
 import '../../../providers/emission_manager.dart';
 import '../../../providers/selected_options.dart';
-import 'chart_data.dart';
+import '../model/chart_data.dart';
 
 class SubEmissionChart extends StatefulWidget {
   const SubEmissionChart({super.key});
@@ -23,8 +23,8 @@ class _SubEmissionChartState extends State<SubEmissionChart> {
   late List<ChartData> data;
   late TooltipBehavior _tooltip;
 
-  ChartData? trainEmissionData;
-  ChartData? inferenceEmissionData;
+  PieData? trainEmissionData;
+  PieData? inferenceEmissionData;
 
   @override
   void initState() {
@@ -40,23 +40,25 @@ class _SubEmissionChartState extends State<SubEmissionChart> {
 
     String? selectedArchitecture = context.watch<EmissionManager>().selectedArchitecture;
 
-    if (context.watch<EmissionManager>().tranEmissionList.map((e) => e.architecture).contains(selectedArchitecture)) {
+    if (context.watch<EmissionManager>().trainEmissionList.map((e) => e.architecture).contains(selectedArchitecture)) {
 
       trainEmission = context.watch<EmissionManager>()
-          .tranEmissionList
+          .trainEmissionList
           .firstWhere((e) => e.architecture == selectedArchitecture);
 
       inferenceEmission = context.watch<EmissionManager>()
           .inferenceEmissionList
           .firstWhere((e) => e.architecture == selectedArchitecture);
 
-      trainEmissionData = ChartData(
+      trainEmissionData = PieData(
           "train",
-          trainEmission.co2PerHour
+          trainEmission.co2PerHour,
+        "train",
       );
-      inferenceEmissionData = ChartData(
+      inferenceEmissionData = PieData(
           "inference",
-          inferenceEmission.co2PerInference * 1000
+          inferenceEmission.co2PerInference * 1000,
+        "inference",
       );
     }
 
@@ -64,25 +66,25 @@ class _SubEmissionChartState extends State<SubEmissionChart> {
       return const Text("");
     } else {
 
-      double maxY = max(trainEmissionData!.y, inferenceEmissionData!.y);
-
-      return SfCartesianChart(
-          primaryXAxis: CategoryAxis(),
-          primaryYAxis: NumericAxis(minimum: 0, maximum: maxY * 1.1, interval: maxY * 0.1),
-          tooltipBehavior: _tooltip,
-          selectionGesture: ActivationMode.doubleTap,
-          onSelectionChanged: (e) {},
-          series: <ChartSeries<ChartData, String>>[
-            ColumnSeries<ChartData, String>(
-                dataSource: [
-                  trainEmissionData!!,
-                  inferenceEmissionData!!
-                ],
-                xValueMapper: (ChartData data, _) => data.x,
-                yValueMapper: (ChartData data, _) => data.y,
-                name: 'Co2eq (Kg) for training an hour',
-                color: Color.fromRGBO(8, 142, 255, 1))
-          ]);
+      return Center(
+          child: SfCircularChart(
+              title: ChartTitle(text: "Details of ${selectedArchitecture!}"),
+              legend: Legend(isVisible: true),
+              series: <PieSeries<PieData, String>>[
+                PieSeries<PieData, String>(
+                    explode: false,
+                    explodeIndex: 0,
+                    dataSource: [
+                      trainEmissionData!,
+                      inferenceEmissionData!
+                    ],
+                    xValueMapper: (PieData data, _) => data.xData,
+                    yValueMapper: (PieData data, _) => data.yData,
+                    dataLabelMapper: (PieData data, _) => data.text,
+                    dataLabelSettings: DataLabelSettings(isVisible: true)),
+              ]
+          )
+      );
     }
   }
 }

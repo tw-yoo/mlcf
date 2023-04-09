@@ -7,6 +7,7 @@ List<InferenceEmission> inferenceEmissionList = [];
 
 enum EmissionType { train, inference }
 
+
 class EmissionManager with ChangeNotifier {
 
   final List<TrainEmission> _trainEmissionList = [];
@@ -14,11 +15,14 @@ class EmissionManager with ChangeNotifier {
 
   String? _selectedArchitecture;
 
-  List<TrainEmission> get tranEmissionList => _trainEmissionList;
+  List<TrainEmission> get trainEmissionList => _trainEmissionList;
   List<InferenceEmission> get inferenceEmissionList => _inferenceEmissionList;
   String? get selectedArchitecture => _selectedArchitecture;
 
+  bool showMainChart = false;
   bool showSubChart = false;
+
+
 
   void addOptionByBoxType(EmissionType emissionType, dynamic option) {
     List? selectedList = getListByEmissionBoxType(emissionType);
@@ -36,8 +40,13 @@ class EmissionManager with ChangeNotifier {
     selectedList?.clear();
   }
 
-  void updateSelectedArchitecture(int i) {
-    _selectedArchitecture = _trainEmissionList[i]?.architecture;
+  void updateSelectedArchitecture(String selectedArchitecture) {
+    _selectedArchitecture = selectedArchitecture;
+    notifyListeners();
+  }
+
+  void updateShowMainChart(bool show) {
+    showMainChart = show;
     notifyListeners();
   }
 

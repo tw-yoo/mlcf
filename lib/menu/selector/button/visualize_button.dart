@@ -16,12 +16,18 @@ class VisualizeButton extends StatefulWidget {
 class VisualizeButtonState extends State<VisualizeButton> {
   @override
   Widget build(BuildContext context) {
-        return ElevatedButton(
-        onPressed: () {
-            context.read<SelectedOptions>().notify();
-            context.read<EmissionManager>().updateShowSubChart(false);
-        },
-        child: const Text("create graph", style: TextStyle(color: Colors.white),),
-    );
+        return Container(
+          margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+          child: ElevatedButton(
+            onPressed: () {
+              context.read<SelectedOptions>().notify();
+              context.read<EmissionManager>().updateShowMainChart(true);
+              context.read<EmissionManager>().updateShowSubChart(false);
+            },
+            child: Text("create graph", style: TextStyle(color: Colors.white),),
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.green)),
+          ),
+        );
+
   }
 }
