@@ -28,8 +28,8 @@ String getOrderOptionNameToDisplay(OrderOption option) {
 
 class SelectedOptions with ChangeNotifier {
 
-  final List _selectedDataList = [];
-  final List<String> _selectedModelList = [];
+  List _selectedDataList = [];
+  List<String> _selectedModelList = [];
   
   List get selectedDataList => _selectedDataList;
   List<String> get selectedModelList => _selectedModelList;
@@ -96,12 +96,16 @@ class SelectedOptions with ChangeNotifier {
     }
 
     if (selectedOrderOption == OrderOption.asc) {
-      return listSortedBySortOption;
+      listSortedBySortOption = listSortedBySortOption;
     } else if (selectedOrderOption == OrderOption.desc) {
-      return listSortedBySortOption.reversed.toList();
+      listSortedBySortOption = listSortedBySortOption.reversed.toList();
     } else {
-      return listSortedBySortOption;
+      listSortedBySortOption = listSortedBySortOption;
     }
+
+    _selectedModelList = listSortedBySortOption.map((e) => e.x).toList();
+
+    return listSortedBySortOption;
   }
 
   void notify() {
