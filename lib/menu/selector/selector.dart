@@ -22,10 +22,10 @@ class OptionSelectorState extends State<OptionSelector> {
       color: Colors.blueGrey,
       alignment: Alignment.center,
       child: Column(
-        children: [
-          const SelectCheckBoxItemList(selectBoxType: SelectBoxType.architecture),
-          const SortButton(),
-          const OrderButton(),
+        children: const [
+          SelectCheckBoxItemList(selectBoxType: SelectBoxType.architecture),
+          SortButton(),
+          OrderButton(),
           VisualizeButton(),
         ],
       ),

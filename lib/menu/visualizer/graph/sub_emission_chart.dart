@@ -68,7 +68,13 @@ class _SubEmissionChartState extends State<SubEmissionChart> {
 
       return Center(
           child: SfCircularChart(
-              title: ChartTitle(text: "Details of ${selectedArchitecture!}"),
+              title: ChartTitle(
+                  text: selectedArchitecture!,
+                textStyle: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                )
+              ),
               legend: Legend(isVisible: true),
               series: <PieSeries<PieData, String>>[
                 PieSeries<PieData, String>(
@@ -78,10 +84,15 @@ class _SubEmissionChartState extends State<SubEmissionChart> {
                       trainEmissionData!,
                       inferenceEmissionData!
                     ],
-                    xValueMapper: (PieData data, _) => data.xData,
+                    xValueMapper: (PieData data, sdf) => data.xData,
                     yValueMapper: (PieData data, _) => data.yData,
-                    dataLabelMapper: (PieData data, _) => data.text,
-                    dataLabelSettings: DataLabelSettings(isVisible: true)),
+                    dataLabelMapper: (PieData data, _) => "${data.text} \n ${data.yData} kg",
+                    dataLabelSettings: const DataLabelSettings(
+                        textStyle: TextStyle(fontSize: 20),
+                        isVisible: true,
+                    ),
+                  animationDuration: 500
+                ),
               ]
           )
       );

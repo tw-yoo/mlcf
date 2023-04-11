@@ -31,7 +31,7 @@ class VisualizerState extends State<Visualizer> {
 
     return Column(
       children: [
-        Container(
+        SizedBox(
           width: screenWidth * 0.6,
           height: screenHeight * 0.4,
           // margin: EdgeInsets.fromLTRB(
@@ -42,7 +42,8 @@ class VisualizerState extends State<Visualizer> {
           // ),
           child: MainEmissionChart()
         ),
-        Container(
+        const Divider(thickness: 5,),
+        SizedBox(
           width: screenWidth * 0.6,
           height: screenHeight * 0.4,
           // margin: EdgeInsets.fromLTRB(

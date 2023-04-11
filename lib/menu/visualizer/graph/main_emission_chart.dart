@@ -2,6 +2,7 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -65,9 +66,25 @@ class _MainEmissionChartState extends State<MainEmissionChart> {
       return const Text("");
     } else {
       return SfCartesianChart(
-          title: ChartTitle(text: 'Total Carbon Emission'),
-          primaryXAxis: CategoryAxis(),
-          primaryYAxis: NumericAxis(minimum: 0, maximum: maxY, interval: maxY * 0.1),
+          title: ChartTitle(
+              text: 'Carbon emission of selected architecture(s)',
+            textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)
+          ),
+          primaryXAxis: CategoryAxis(
+            title: AxisTitle(
+                text: "Architecture",
+              textStyle: TextStyle(fontWeight: FontWeight.bold)
+            )
+          ),
+          primaryYAxis: NumericAxis(
+              title: AxisTitle(
+                  text: "CO2 Kilograms",
+                  textStyle: TextStyle(fontWeight: FontWeight.bold)
+              ),
+              minimum: 0,
+              maximum: maxY,
+              interval: maxY * 0.1
+          ),
           tooltipBehavior: _tooltip,
           selectionGesture: ActivationMode.doubleTap,
           onSelectionChanged: (e) {
@@ -86,8 +103,10 @@ class _MainEmissionChartState extends State<MainEmissionChart> {
                 dataSource: arrangedData,
                 xValueMapper: (ChartData data, _) => data.x,
                 yValueMapper: (ChartData data, _) => data.y,
-                name: 'Co2eq (Kg) for training an hour',
-                color: Color.fromRGBO(8, 142, 255, 1))
+                name: 'Kg co2eq for training one hour and inferring 1,000 times',
+                color: Color.fromRGBO(8, 142, 255, 1),
+                animationDuration: 500
+            ),
           ]);
     }
   }
